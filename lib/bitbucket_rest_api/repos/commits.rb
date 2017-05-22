@@ -34,6 +34,16 @@ module BitBucket
       return response unless block_given?
       response.each { |el| yield el }
     end
+
+
+    def get(user_name, repo_name, revision)
+      _update_user_repo_params(user_name, repo_name)
+      _validate_user_repo_params(user, repo) unless user? && repo?
+ 
+      path = "/2.0/repositories/#{user}/#{repo.downcase}/commit/#{revision}"
+      get_request(path)
+    end
+
     alias :all :list
 
   end # Repos::Commits
